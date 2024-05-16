@@ -13,7 +13,7 @@
 # limitations under the License.
 
 presubmits:
-  - name: pre-kubermatic-reconciling-lint
+  - name: pre-kubermatic-reconciling-verify
     always_run: true
     decorate: true
     clone_uri: "ssh://git@github.com/kubermatic/reconciling.git"
@@ -28,3 +28,19 @@ presubmits:
             requests:
               memory: 2Gi
               cpu: 1
+  - name: pre-kubermatic-reconciling-lint
+    always_run: true
+    decorate: true
+    clone_uri: "ssh://git@github.com/kubermatic/reconciling.git"
+    labels:
+      preset-goproxy: "true"
+    spec:
+      containers:
+        - image: quay.io/kubermatic/build:go-1.22-node-20-4
+          command:
+            - make
+            - lint
+          resources:
+            requests:
+              memory: 4Gi
+              cpu: 2
